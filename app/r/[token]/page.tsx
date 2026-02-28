@@ -1,5 +1,5 @@
-import { supabaseServer } from "@/lib/supabaseServer";
-import { Card, Badge } from "@/components/ui";
+import { supabaseServer } from "../../../lib/supabaseServer";
+import { Card, Badge } from "../../../components/ui";
 
 export const dynamic = "force-dynamic";
 

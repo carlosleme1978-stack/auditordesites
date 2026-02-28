@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, Badge, Button } from "@/components/ui";
+import { Card, Badge, Button } from "../../components/ui";
 
 export default function SucessoPage() {
   const [state, setState] = useState<{ status: string; reportUrl?: string; error?: string }>({ status: "A validar pagamento..." });

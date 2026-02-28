@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PRICES, type AuditType } from "@/config/pricing";
-import { Button, Card, Input, Textarea, Badge } from "@/components/ui";
+import { PRICES, type AuditType } from "../../config/pricing";
+import { Button, Card, Input, Textarea, Badge } from "../../components/ui";
 
 type FormState = {
   auditType: AuditType;

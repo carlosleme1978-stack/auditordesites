@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { stripeServer } from "@/lib/stripe";
-import { supabaseServer } from "@/lib/supabaseServer";
-import { fetchAndExtractSite } from "@/lib/siteExtract";
-import { runAuditWithOpenAI } from "@/lib/openai";
+import { stripeServer } from "../../../../lib/stripe";
+import { supabaseServer } from "../../../../lib/supabaseServer";
+import { fetchAndExtractSite } from "../../../../lib/siteExtract";
+import { runAuditWithOpenAI } from "../../../../lib/openai";
 
 export const runtime = "nodejs";
 

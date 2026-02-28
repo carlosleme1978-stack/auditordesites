@@ -1,4 +1,4 @@
-import { validateAndNormalizeUrl } from "@/lib/security";
+import { validateAndNormalizeUrl } from "./security";
 
 export async function fetchAndExtractSite(urlInput: string) {
   const url = await validateAndNormalizeUrl(urlInput);

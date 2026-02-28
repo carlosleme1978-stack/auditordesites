@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { stripeServer } from "@/lib/stripe";
-import { supabaseServer } from "@/lib/supabaseServer";
-import { makeToken, validateAndNormalizeUrl } from "@/lib/security";
-import { PRICES, type AuditType } from "@/config/pricing";
+import { stripeServer } from "../../../lib/stripe";
+import { supabaseServer } from "../../../lib/supabaseServer";
+import { makeToken, validateAndNormalizeUrl } from "../../../lib/security";
+import { PRICES, type AuditType } from "../../../config/pricing";
 
 export const runtime = "nodejs";
 
