@@ -39,7 +39,7 @@ export default async function ReportPage({ params }: { params: { token: string }
   const quick = report.quick_wins || [];
   const steps = report.recommended_next_steps || [];
   const assets = report.output_assets || {};
-const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "351963792822";
+const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "351963792";
 const waText = "Olá! Fiz a auditoria no Auditor Digital PT e quero ajuda para implementar as melhorias. (Posso enviar o link do relatório aqui.)";
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
 

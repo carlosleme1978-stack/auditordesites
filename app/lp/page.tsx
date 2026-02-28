@@ -3,6 +3,13 @@ import { Card, Badge, Button } from "../../components/ui";
 export default function LandingAds() {
   return (
     <div>
+{/* LP_HIDE_NAV */}
+<style>{`
+  /* Esconde o menu (Auditar/Admin) somente na landing /lp */
+  .header .nav { display: none !important; }
+`}</style>
+
+
       <section className="hero">
         <Badge>Sem login • Pagamento antes • Link privado</Badge>
         <h1 className="h1" style={{ marginTop: 10 }}>

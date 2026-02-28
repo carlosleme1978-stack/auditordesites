@@ -17,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Auditor Digital PT
             </a>
             <nav className="nav">
+              <a href="/lp">Landing</a>
               <a href="/auditar">Auditar</a>
               <a href="/admin">Admin</a>
             </nav>
