@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, Badge, Button } from "../../components/ui";
 
@@ -24,6 +24,16 @@ function pickTrackingParams(params: URLSearchParams) {
 }
 
 export default function LandingAds() {
+  // IMPORTANTE (Next.js): useSearchParams precisa estar dentro de <Suspense>
+  // para evitar erro de prerender/export em rotas do App Router.
+  return (
+    <Suspense fallback={<div style={{ padding: 24 }} />}>
+      <LandingAdsInner />
+    </Suspense>
+  );
+}
+
+function LandingAdsInner() {
   const sp = useSearchParams();
   const tracking = useMemo(() => pickTrackingParams(sp), [sp]);
 
@@ -85,7 +95,7 @@ export default function LandingAds() {
           </ul>
           <div style={{ marginTop: 12 }}>
             <a href={withTracking("/auditar?type=site")}>
-              <Button>Analizar site</Button>
+            <Button>Analisar site</Button>
             </a>
           </div>
         </Card>
@@ -101,7 +111,7 @@ export default function LandingAds() {
           </ul>
           <div style={{ marginTop: 12 }}>
             <a href={withTracking("/auditar?type=instagram")}>
-              <Button>Analizar Instagram</Button>
+            <Button>Analisar Instagram</Button>
             </a>
           </div>
         </Card>
@@ -117,7 +127,7 @@ export default function LandingAds() {
           </ul>
           <div style={{ marginTop: 12 }}>
             <a href={withTracking("/auditar?type=landing")}>
-              <Button>Analizar Landing</Button>
+            <Button>Analisar Landing</Button>
             </a>
           </div>
         </Card>
