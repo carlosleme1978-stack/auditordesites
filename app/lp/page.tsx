@@ -1,6 +1,38 @@
+"use client";
+
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, Badge, Button } from "../../components/ui";
 
+function pickTrackingParams(params: URLSearchParams) {
+  // Mantém somente parâmetros úteis de tracking
+  const allow = new Set([
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "fbclid",
+    "gclid",
+  ]);
+  const out = new URLSearchParams();
+  for (const [k, v] of params.entries()) {
+    if (!v) continue;
+    if (allow.has(k)) out.set(k, v);
+  }
+  return out;
+}
+
 export default function LandingAds() {
+  const sp = useSearchParams();
+  const tracking = useMemo(() => pickTrackingParams(sp), [sp]);
+
+  const withTracking = (href: string) => {
+    const q = tracking.toString();
+    if (!q) return href;
+    return href.includes("?") ? `${href}&${q}` : `${href}?${q}`;
+  };
+
   return (
     <div>
 {/* LP_HIDE_NAV */}
@@ -11,17 +43,22 @@ export default function LandingAds() {
 
 
       <section className="hero">
-        <Badge>Sem login • Pagamento antes • Link privado</Badge>
+        <Badge>Sem login • Relatório em 60s • Link privado</Badge>
         <h1 className="h1" style={{ marginTop: 10 }}>
-          Você pode estar a perder clientes todos os dias — e nem percebe.
+          O seu Instagram e o seu site podem estar a travar as vendas — sem você ver.
         </h1>
         <p className="p">
-          Em ~60 segundos, descubra o que está a travar o seu <strong>site</strong>, o seu <strong>Instagram</strong> ou a sua <strong>landing de vendas</strong>.
-          Relatório prático com prioridades (Alta/Média/Baixa), quick wins e sugestões prontas para copiar.
+          Em ~60 segundos, descubra <strong>onde está o bloqueio</strong> e o que corrigir primeiro.
+          Você recebe um relatório prático com prioridades (Alta/Média/Baixa), quick wins e textos prontos para copiar.
         </p>
 
         <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-          <a href="/auditar"><Button>Quero meu relatório agora</Button></a>
+          <a href={withTracking("/auditar?type=instagram")}>
+            <Button>Analisar meu Instagram</Button>
+          </a>
+          <a href={withTracking("/auditar?type=site")}>
+            <Button variant="ghost">Analisar meu Site</Button>
+          </a>
           <a href="#precos"><Button variant="ghost">Ver preços</Button></a>
         </div>
 
@@ -29,6 +66,10 @@ export default function LandingAds() {
           <span className="kpi">✅ Site: SEO + Conversão</span>
           <span className="kpi">✅ Instagram: Bio + Conteúdo</span>
           <span className="kpi">✅ Landing: Copy + CTA</span>
+        </div>
+
+        <div className="small" style={{ marginTop: 10, opacity: 0.85 }}>
+          *Mantemos os parâmetros (UTM) do anúncio automaticamente para você medir de onde veio cada pedido.
         </div>
       </section>
 
@@ -43,7 +84,9 @@ export default function LandingAds() {
             <li>Texto longo, confuso, sem estrutura</li>
           </ul>
           <div style={{ marginTop: 12 }}>
-            <a href="/auditar"><Button>Auditar site</Button></a>
+            <a href={withTracking("/auditar?type=site")}>
+              <Button>Analizar site</Button>
+            </a>
           </div>
         </Card>
 
@@ -57,7 +100,9 @@ export default function LandingAds() {
             <li>Posts sem consistência de mensagem</li>
           </ul>
           <div style={{ marginTop: 12 }}>
-            <a href="/auditar"><Button>Auditar Instagram</Button></a>
+            <a href={withTracking("/auditar?type=instagram")}>
+              <Button>Analizar Instagram</Button>
+            </a>
           </div>
         </Card>
 
@@ -71,7 +116,9 @@ export default function LandingAds() {
             <li>Texto não conduz a decisão</li>
           </ul>
           <div style={{ marginTop: 12 }}>
-            <a href="/auditar"><Button>Auditar landing</Button></a>
+            <a href={withTracking("/auditar?type=landing")}>
+              <Button>Analizar Landing</Button>
+            </a>
           </div>
         </Card>
 
@@ -97,10 +144,45 @@ export default function LandingAds() {
             </div>
           </div>
           <div style={{ marginTop: 12 }}>
-            <a href="/auditar"><Button>Começar agora</Button></a>
+            <a href={withTracking("/auditar")}>
+              <Button>Analizar agora</Button>
+            </a>
           </div>
         </Card>
       </div>
+
+      <section style={{ marginTop: 14 }}>
+        <Card>
+          <div className="badge">Como funciona (passo a passo)</div>
+          <div className="hr" />
+          <div style={{ display: "grid", gap: 10 }}>
+            <div className="issue">
+              <div style={{ fontWeight: 900 }}>1) Você escolhe o tipo</div>
+              <div className="small">Instagram / Site / Landing (ou combo).</div>
+            </div>
+            <div className="issue">
+              <div style={{ fontWeight: 900 }}>2) Você cola o que a IA precisa</div>
+              <div className="small">
+                Site: URL • Instagram: sua bio + 3 legendas recentes • Landing: cola o texto (ou URL).
+              </div>
+            </div>
+            <div className="issue">
+              <div style={{ fontWeight: 900 }}>3) Sai um relatório direto ao ponto</div>
+              <div className="small">
+                Pontuações (0–100), erros com prioridade, quick wins e textos prontos para copiar/colar.
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 14, display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <a href={withTracking("/auditar?type=instagram")}>
+              <Button>Começar pelo Instagram</Button>
+            </a>
+            <a href={withTracking("/auditar?type=site")}>
+              <Button variant="ghost">Começar pelo Site</Button>
+            </a>
+          </div>
+        </Card>
+      </section>
 
       <section style={{ marginTop: 14 }} id="precos">
         <Card>
@@ -114,39 +196,45 @@ export default function LandingAds() {
             <Card>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
                 <div>
-                  <div style={{ fontWeight: 900 }}>Auditoria de Site</div>
+                  <div style={{ fontWeight: 900 }}>Analize completa de Site</div>
                   <div className="small">SEO + Conversão + checklist</div>
                 </div>
                 <div style={{ fontWeight: 900, fontSize: 20 }}>€9</div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <a href="/auditar"><Button>Auditar site</Button></a>
+                <a href={withTracking("/auditar?type=site")}>
+                  <Button>Analizar site</Button>
+                </a>
               </div>
             </Card>
 
             <Card>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
                 <div>
-                  <div style={{ fontWeight: 900 }}>Auditoria Instagram</div>
+                  <div style={{ fontWeight: 900 }}>Analize de Instagram</div>
                   <div className="small">Bio + conteúdo + plano</div>
                 </div>
                 <div style={{ fontWeight: 900, fontSize: 20 }}>€7</div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <a href="/auditar"><Button>Auditar Instagram</Button></a>
+                <a href={withTracking("/auditar?type=instagram")}>
+                  <Button>Analizar Instagram</Button>
+                </a>
               </div>
             </Card>
 
             <Card>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
                 <div>
-                  <div style={{ fontWeight: 900 }}>Auditoria Copy (Landing)</div>
+                  <div style={{ fontWeight: 900 }}>Analize de Copy (Landing)</div>
                   <div className="small">Oferta + CTA + objeções</div>
                 </div>
                 <div style={{ fontWeight: 900, fontSize: 20 }}>€12</div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <a href="/auditar"><Button>Auditar landing</Button></a>
+                <a href={withTracking("/auditar?type=landing")}>
+                  <Button>Analizar Landing</Button>
+                </a>
               </div>
             </Card>
 
@@ -159,7 +247,9 @@ export default function LandingAds() {
                 <div style={{ fontWeight: 900, fontSize: 20 }}>€19</div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <a href="/auditar"><Button>Quero o combo</Button></a>
+                <a href={withTracking("/auditar?type=combo")}>
+                  <Button>Quero o Todos</Button>
+                </a>
               </div>
             </Card>
           </div>
@@ -186,7 +276,9 @@ export default function LandingAds() {
           </div>
 
           <div style={{ marginTop: 14, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="/auditar"><Button>Começar auditoria</Button></a>
+            <a href={withTracking("/auditar")}>
+              <Button>ANALIZAR AGORA</Button>
+            </a>
             <a href="/"><Button variant="ghost">Voltar</Button></a>
           </div>
         </Card>
